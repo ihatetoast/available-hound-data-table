@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+
+:root {
+
+  line-height: 1.5;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+    font-family: 'Source Sans 3', sans-serif;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+/* COMPONENTS  */
+
+
+/* MODAL FOR SELECTED DOG  */
+.selected-dog-modal {
+    border: none;
+  border-radius: 8px;
+  padding: 2rem;
+  background-color: #d7fcf8; /* CHANGE */
+}
+
+.selected-dog-modal[open] {
+  animation: slide-in-from-top 0.35s ease-out;
+}
+
+.selected-dog-modal::backdrop {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+@keyframes slide-in-from-top {
+  0% {
+    transform: translateY(-15%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
