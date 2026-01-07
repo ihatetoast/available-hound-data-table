@@ -6,6 +6,7 @@
   font-weight: 400;
   /* VARIABLES  */
   --black: rgb(43, 43, 43);
+  --dark-grey: #545454;
   --pink: #dd97ad;
   --pink-dark: #d5618a;
   --pink-light: #fdbed6;
@@ -36,6 +37,15 @@ body {
   background-color: var(--off-white);
 }
 
+strong {
+  font-weight: normal;
+}
+
+.warning {
+  color: var(--pink-dark);
+  font-weight: 700;
+}
+
 /* HEADER  */
 header {
   padding: 0.5rem 1rem;
@@ -53,16 +63,21 @@ h1,
   font-family: 'Bebas Neue', sans-serif;
 }
 
+.header-btns-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+}
 .header-btn {
   background-color: var(--green);
   color: var(--white);
-  display: block;
   text-align: center;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 1rem;
-  margin: 1rem auto;
   border: none;
+  width: fit-content;
 }
 
 .header-btn:hover,
@@ -81,6 +96,12 @@ main {
 /* COMPONENTS  */
 
 /* TABLE */
+.table-container {
+  border-radius: 0.5rem 0.5rem 0 0 ;
+  overflow: hidden;
+  width: 100%;
+}
+
 table {
   border-collapse: collapse;
   width: 100%;
@@ -88,6 +109,7 @@ table {
 
 thead {
   background-color: var(--pink-dark);
+
 }
 
 thead th {
@@ -97,11 +119,121 @@ thead th {
 th,
 td {
   font-size: 0.8rem;
-  padding: 0.4rem 0.2rem;
+  padding: 0.5rem 0.5rem;
+}
+/* EXPANDABLE ROW  */
+.dog-name {
+position: relative;
 }
 
-tr.selected {
+.expand-chevron {
+  position:absolute;
+  right: 0;
+  top: 10px;
+  width: 0.5rem;
+  height: 0.5rem;
+  display: inline-block;
+  border-left: 2px solid var(--black);
+  border-bottom:2px  solid var(--black);
+  transform: rotate(-45deg);
+  transition: all .2s;
+}
+
+.expand-chevron.opened {
+    transform: rotate(135deg);
+    transition: all .2s;
+}
+.detail-row-media-desktop {
+  display:none;
+} 
+.detail-row-media-mobile {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+}
+
+.detail-row-image-container {
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  border-radius: 0.5rem;
+
+}
+.detail-row-image-container img {
+  width: 100%;
+}
+
+.detail-row-video-link{
+  background-color: var(--pink-dark);
+  color: var(--white);
+  text-align: center;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  align-self: flex-start;
+}
+
+.detail-row-video-link:hover,
+.detail-row-video-link:focus {
   background-color: var(--pink-light);
+  color: var(--black);
+}
+
+
+
+.main-row.selected {
+  background-color: var(--pink);
+}
+.main-row.selected.expandable.selected {
+  background-color: var(--pink-light);
+}
+
+.detail-row {
+  display: none;
+  height: 0;
+  animation: unexpand 0.4s ease;
+}
+
+.detail-row.open {
+  display: table-row;
+  height: auto;
+  animation: expand 0.4s ease;
+  background-color: var(--pink-light);
+}
+.detail-row.open td {
+  padding: 0.25rem 0.25rem;
+}
+.detail-row.open .details-container  {
+  background-color: var(--white);
+  padding: 0.25rem 0.25rem;
+}
+.detail-row-intro {
+  color: var(--green);
+}
+.detail-row-bio p {
+  font-weight: 700;
+}
+
+@keyframes expand {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+@keyframes unexpand {
+  from {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  to {
+    opacity: 0;
+    transform: scaleY(0);
+  }
 }
 
 .cat-cell::before {
@@ -252,6 +384,7 @@ tr.selected {
   position: relative;
   padding: 10px 25px;
   border:none;
+  display:none;
 }
 
 .nav-btn::before {
@@ -270,6 +403,28 @@ tr.selected {
 .nav-btn.next::before {
   border-left-color: var(--white); 
   left: 10px; 
+}
+
+.nav-dots-container {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem auto;
+}
+
+.nav-dot {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background-color: var(--dark-grey)
+}
+
+.nav-dot.active {
+  background-color: var(--black);
+  width:1.1rem;
+  height: 1.1rem;
 }
 
 /* RIGHT SIDE / BOTTOM HALF --- MEDIA   */
@@ -303,10 +458,30 @@ tr.selected {
 }
 
 
+@media screen and (min-width: 425px) {
+  th,
+  td {
+    font-size: 1rem;
+    padding: 0.6rem 0.5rem;
+  }
+
+  .selected-dog-video-link {
+    justify-self: flex-start;
+  }
+
+  .image-container img {
+    width: 80%;
+  }
+}
 
 @media screen and (min-width: 768px) {
+  .header-btns-container {
+  flex-direction: row;
+  justify-content: center;
+}
+
   .header-btn {
-    margin: 1rem;
+    margin: 1rem 0.5rem; 
   }
 
   header,
@@ -314,10 +489,8 @@ tr.selected {
     padding: 1rem 2rem;
   }
 
-  th,
-  td {
-    font-size: 1.2rem;
-    padding: 0.5rem 0.25rem;
+  .table-container {
+    width: 90%;
   }
 
   .cat-cell::before {
@@ -340,10 +513,17 @@ tr.selected {
   .selected-dog-info {
     padding: 1rem 1.5rem;
   }
+
+  .selected-dog-video-link {
+    justify-self: flex-end;
+  }
   .image-container img {
     width: 60%;
   }
+
 }
+
+/* MODAL GOES SIDE BY SIDE AT 900  */
 
 @media screen and (min-width: 900px) {
   h1 {
@@ -354,6 +534,11 @@ tr.selected {
   header,
   main {
     padding: 2rem;
+  }
+
+  .table-container {
+    width: 85%;
+    max-width: 1200;
   }
 
   .modal {
@@ -396,10 +581,40 @@ tr.selected {
     width: fit-content;
     align-self: flex-end;
   }
+
+  .nav-btn {
+    display: block;
+  }
+
+  .nav-btn.hideOnHorizontal {
+    display: none;
+  }
+
+  .nav-dots-container {
+    display: none;
+  }
+
+  .nav-dots-container.showOnHorizontal {
+    display: flex;
+  }
+
+  .main-row:hover,
+.main-row:focus  {
+  cursor: pointer;
+  background-color: var(--pink-light);
+}
+
+  .detail-row-media-desktop{
+      display:flex;
+  } 
+  .detail-row-media-mobile {
+    display: none;
+  }
+
 }
 
 
-
+/* ANIMATIONS  */
 
 @keyframes slide-in-from-top {
   0% {
@@ -411,14 +626,19 @@ tr.selected {
     opacity: 1;
   }
 }
-@media screen and (min-width: 425px) {
-  th,
-  td {
-    font-size: 1rem;
-    padding: 0.4rem 0.2rem;
-  }
 
-  .image-container img {
-    width: 80%;
-  }
-}
+
+
+/* TO ADDRESS: 
+
+MEDIA ON MODAL:
+handle the image size so there is no jumping. 
+make the nav arrows pos abs and slightly over the image
+avoid jumpiness that now happens because images are different
+
+HEADER BUTTONS: 
+on click or hover, have a border, so a border needs to be there for regular 
+and fix the width so that the content doesn't make it jumpy
+
+
+*/

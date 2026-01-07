@@ -11,20 +11,18 @@ const fetchHoundsData = () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(galtDogs);
-    }, 500); // increase this for testing loading.
+    }, 500); // increase this for testing loading component.
   });
 };
 
 function App() {
-  // have a delay to fetch the data as though I'm getting it from the db fairies.
   const [isLoading, setIsLoading] = useState(true);
   const [dogData, setDogData] = useState([]);
   const [error, setError] = useState(null);
-  const [selectedDog, setSelectedDog] = useState(null); // hardcoded while making the card
+  const [selectedDog, setSelectedDog] = useState(null);
   const [expandable, setExpandable] = useState(false);
+  const [dotsOnHorizontal, setDotsOnHorizontal] = useState(false);
 
-  // have a load more? there are 20 dogs. load 5. pagination?
-  // load all for now.
 
   useEffect(() => {
     const loadHounds = async () => {
@@ -43,35 +41,54 @@ function App() {
   }, []);
 
   function handleRowClick(dog) {
-    setSelectedDog(dog);
+    if(selectedDog?.id === dog.id){
+      console.log("you need to unselect the dog");
+      setSelectedDog(null);
+    } else {
+      console.log("you need to select the dog");
+          setSelectedDog(dog);
+    }
+
   }
 
   function handleCloseModal() {
     setSelectedDog(null);
+
   }
 
   return (
     <>
-      <Header title='Available Greyhounds'>
+      <Header title="GALT's Greyhounds">
         <p>
           These are the greyhounds currently in the care of Greyhound Adoption
-          League of Texas (GALT). Click on a hound to learn more.
-        </p>
-        <p>
-          Click on the button to view the details as an expanded drawer or as a
-          modal.{' '}
-        </p>
+          League of Texas (GALT). Click on a hound to learn more.</p>
+          <p><strong><span className="warning">NOTE:</span> Hounds recently adopted or on the injured reserved (IR) list appear as unavailable until they're either removed from IR or their adoption probationary period has lapsed and are removed entirely.</strong> </p>
+        
         {!isLoading && !error && (
+          <div className="header-btns-container">
           <button
             className="header-btn"
             onClick={() => {
               setExpandable((prev) => !prev);
+              setSelectedDog(null);
             }}
           >
             {expandable
-              ? 'Switch to separate card mode'
+              ? 'Switch to modal mode'
               : 'Switch to accordion mode'}
           </button>
+          <button
+            className="header-btn"
+            onClick={() => {
+              setDotsOnHorizontal((prev) => !prev);
+              setSelectedDog(null);
+            }}
+          >
+            {dotsOnHorizontal
+              ? 'Switch to arrows on horizontal'
+              : 'Switch to dots on horizontal'}
+          </button>
+          </div>
         )}
       </Header>
       <main>
@@ -90,6 +107,7 @@ function App() {
         <CardModal
           selectedDogData={selectedDog}
           handleCloseModal={handleCloseModal}
+          dotsOnHorizontal={dotsOnHorizontal}
         />
       )}
     </>

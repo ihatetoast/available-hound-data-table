@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const SlideShow = ({ images, color }) => {
+const SlideShow = ({ images,dotsOnHorizontal, color }) => {
   const [currIdx, setCurrIdx] = useState(0);
 
   function handlePrevImage() {
@@ -9,14 +9,28 @@ const SlideShow = ({ images, color }) => {
   function handleNextImage() {
     setCurrIdx((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   }
-  // dots go to the current on click. map over and on click go to image[idx]
-  // another option, so create a demo button for header and pass that on down.
-
+  
+  function goToImage(idx) {
+    setCurrIdx(idx);
+  }
+console.log("dots on horizontal? ", dotsOnHorizontal);
   return (
-    <div className='image-container'>
-      <button onClick={handlePrevImage} className='nav-btn prev'></button>
-      <img src={images[currIdx]} alt={`a ${color} greyhound`} />
-      <button onClick={handleNextImage} className='nav-btn next'></button>
+    <div className='slideshow-container'>
+      <div className='image-container'>
+        <button onClick={handlePrevImage} className={`nav-btn prev ${dotsOnHorizontal ? "hideOnHorizontal" : ''}`}></button>
+        <img src={images[currIdx]} alt={`a ${color} greyhound`} />
+        <button onClick={handleNextImage} className={`nav-btn next ${dotsOnHorizontal ? "hideOnHorizontal" : ''}`}></button>
+      </div>
+
+      <div className={`nav-dots-container ${dotsOnHorizontal ? "showOnHorizontal" : ''}`}>
+        {images.map((img, idx) => (
+          <span
+            onClick={() => goToImage(idx)}
+            key={idx}
+            className={`nav-dot ${idx === currIdx ? 'active' : ''}`}
+          ></span>
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,17 +1,15 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 import {getAgeInYears} from '../helpers';
 import SlideShow from './SlideShow';
-const CardModal = ({ selectedDogData, handleCloseModal }) => {
+const CardModal = ({ selectedDogData, dotsOnHorizontal, handleCloseModal }) => {
   const dialog = useRef();
-  const [currIdx, setCurrIdx] = useState(0);
 
   useEffect(() => {
     dialog.current.showModal();
   });
   
-  // a prev and next arrow for viewing the next/prev hound. Will loop. 
 // TERNARY TEXT 
   const catText = selectedDogData.cats === "no" 
   ? "No cats" 
@@ -19,8 +17,10 @@ const CardModal = ({ selectedDogData, handleCloseModal }) => {
   const pedigreeText = selectedDogData.pedigree === "yes" ? "Greyhound" : "Sighthound mix";
 
 // TERNARY CLASS
-const statusClass = selectedDogData.status === "adoption pending" 
-? "pending" : (selectedDogData.status === "adopted" || selectedDogData.status === "injured reserve") ? "unavailable" : "available";
+  const statusClass = selectedDogData.status === "adoption pending" 
+  ? "pending" 
+  : (selectedDogData.status === "adopted" || selectedDogData.status === "injured reserve") ? "unavailable" : "available";
+
   return createPortal(
     <dialog className='modal' ref={dialog} onClose={handleCloseModal}>
       <div className='modal-content'>
@@ -47,12 +47,12 @@ const statusClass = selectedDogData.status === "adoption pending"
               <span className="pedigree female">Dam: {selectedDogData.dam}</span>
             </li>}
           </ul>
-          <a className="selected-dog-video-link" href={selectedDogData.media.videoUrl} target="_blank" rel="noreferrer"
->Check out my video</a>
+          {selectedDogData.media.videoUrl && <a className="selected-dog-video-link" href={selectedDogData.media.videoUrl} target="_blank" rel="noreferrer"
+>Check out my video</a>}
         </div>
         <div className='selected-dog-media'>
           {selectedDogData.media.imageGallery.length > 1 
-          ? <SlideShow images={selectedDogData.media.imageGallery} color={selectedDogData.color}/>
+          ? <SlideShow images={selectedDogData.media.imageGallery} color={selectedDogData.color} dotsOnHorizontal={dotsOnHorizontal}/>
           :<img src={selectedDogData.media.imageGallery[0]} alt={`a ${selectedDogData.color} greyhound`} />
           }
         </div>
