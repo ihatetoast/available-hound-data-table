@@ -1,31 +1,17 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import {getAgeInYears} from '../helpers';
+import SlideShow from './SlideShow';
 const CardModal = ({ selectedDogData, handleCloseModal }) => {
   const dialog = useRef();
+  const [currIdx, setCurrIdx] = useState(0);
 
   useEffect(() => {
     dialog.current.showModal();
   });
-  // image hardcoded FORNOW (will be slide show of >1)
-  // video (if there is one) will be a buttony link to the youtube vid.
+  
   // a prev and next arrow for viewing the next/prev hound. Will loop. 
-  function getAgeInYears(dateStr){
-    const date = new Date(dateStr);
-    // handle human error
-    if(typeof dateStr !== 'string' || isNaN(date)){
-      return "Age unknown";
-    }
-    const yearNow = new Date().getFullYear();
-    // regex for year only:
-    const regex = /^\d{4}$/;
-    if(regex.test(dateStr)){
-      return yearNow - Number(dateStr);
-    } else {
-      const birthYear = date.getFullYear();
-      return yearNow - birthYear;
-    }
-  }
 // TERNARY TEXT 
   const catText = selectedDogData.cats === "no" 
   ? "No cats" 
@@ -57,21 +43,18 @@ const statusClass = selectedDogData.status === "adoption pending"
               <span className="trait">{pedigreeText}</span>
             </li>
             {selectedDogData.pedigree === "yes" &&<li className="traits">
-              <span className="trait-title parentage">PARENTAGE</span>
               <span className="pedigree male">Sire: {selectedDogData.sire}</span>
               <span className="pedigree female">Dam: {selectedDogData.dam}</span>
             </li>}
-
-
           </ul>
           <a className="selected-dog-video-link" href={selectedDogData.media.videoUrl} target="_blank" rel="noreferrer"
 >Check out my video</a>
         </div>
         <div className='selected-dog-media'>
-          <div className="image-container">
-            <img src={selectedDogData.media.imageGallery[0]} alt='HANDLE ME' />
-          </div>
-          
+          {selectedDogData.media.imageGallery.length > 1 
+          ? <SlideShow images={selectedDogData.media.imageGallery} color={selectedDogData.color}/>
+          :<img src={selectedDogData.media.imageGallery[0]} alt={`a ${selectedDogData.color} greyhound`} />
+          }
         </div>
       </div>
       <button className="close-modal-btn" onClick={handleCloseModal}>X</button>

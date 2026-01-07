@@ -155,7 +155,7 @@ export const galtDogs = [
   },
   {
     id: 8,
-    name: 'Balsa (Atascocita Balsa)',
+    name: 'Balsa',
     originLocation: 'WV, USA',
     sex: 'female',
     pedigree: 'yes',
@@ -352,7 +352,7 @@ export const galtDogs = [
   },
   {
     id: 17,
-    name: "Xander (Kelso's Sanction)",
+    name: "Xander",
     originLocation: '',
     sex: 'male',
     pedigree: 'yes',
@@ -410,7 +410,7 @@ export const galtDogs = [
   },
   {
     id: 20,
-    name: 'Shane (Slatex Shame)',
+    name: 'Shane',
     originLocation: 'TX, USA',
     sex: 'male',
     pedigree: 'yes',

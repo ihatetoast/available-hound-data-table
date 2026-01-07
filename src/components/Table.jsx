@@ -3,7 +3,8 @@ import React from 'react'
 import TableRow from './TableRow';
 
 
-const Table = ({dogData,  onRowClick}) => {
+const Table = ({dogData, expandable, selectedDog, onRowClick}) => {
+
 
   return (
     <table>
@@ -17,7 +18,7 @@ const Table = ({dogData,  onRowClick}) => {
         </tr>
       </thead>
       <tbody>
-        {dogData.map((dog) => <TableRow key={dog.id} dog={dog} onRowClick={onRowClick}/>)}
+        {dogData.map((dog) => <TableRow isSelected={selectedDog?.id === dog.id} key={dog.id} dog={dog} onRowClick={onRowClick}/>)}
       </tbody>
     </table>
   )

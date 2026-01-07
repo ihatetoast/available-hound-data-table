@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
-import {galtDogs} from './data/dogData';
+import { galtDogs } from './data/dogData';
 
-import Header from './components/Header'
-import Table from './components/Table'
-import CardModal from './components/CardModal'
+import Header from './components/Header';
+import Table from './components/Table';
+import CardModal from './components/CardModal';
 
 // simulated db query
 const fetchHoundsData = () => {
@@ -21,52 +21,79 @@ function App() {
   const [dogData, setDogData] = useState([]);
   const [error, setError] = useState(null);
   const [selectedDog, setSelectedDog] = useState(null); // hardcoded while making the card
-  const [expandable, setExpandable] =  useState(false);
+  const [expandable, setExpandable] = useState(false);
 
+  // have a load more? there are 20 dogs. load 5. pagination?
+  // load all for now.
 
+  useEffect(() => {
+    const loadHounds = async () => {
+      try {
+        setIsLoading(true);
+        const data = await fetchHoundsData();
+        setDogData(data);
+      } catch (err) {
+        console.log(err);
+        setError('Failed to load hound data.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadHounds();
+  }, []);
 
-// have a load more? there are 20 dogs. load 5. pagination?
-// load all for now. 
-
-useEffect(() => {
-  const loadHounds = async () => {
-    try {
-      setIsLoading(true);
-      const data = await fetchHoundsData();
-      setDogData(data);
-    }
-    catch(err){
-      console.log(err);
-      setError('Failed to load hound data.');
-    }
-    finally {
-      setIsLoading(false);
-    }
-  }
-  loadHounds();
-}, [])
-
-  function handleRowClick(dog){
+  function handleRowClick(dog) {
     setSelectedDog(dog);
   }
 
-  function handleCloseModal(){
+  function handleCloseModal() {
     setSelectedDog(null);
   }
 
   return (
     <>
-    <Header title="Available Greyhounds">
-      <p>These are the greyhounds currently in the care of Greyhound Adoption League of Texas (GALT). Click on a hound to learn more.</p>
-      <p>Click on the button to view the details as an expanded drawer or as a modal. </p>
-      {!isLoading && !error && <button onClick={()=>{setExpandable(prev => !prev)}}>{expandable ? "Switch to separate card mode" : "Switch to accordion mode"}</button>}
-    </Header>
-      {isLoading && <p>Loading ... MAKE A LOADING COMPONENT</p>}
-      {error && <p>Uh oh. {error}</p>}
-      {!isLoading && !error && <Table dogData={dogData} expandable={expandable} onRowClick={handleRowClick}/>}
-      { selectedDog && !expandable && <CardModal selectedDogData={selectedDog} handleCloseModal={handleCloseModal}/>}
+      <Header title='Available Greyhounds'>
+        <p>
+          These are the greyhounds currently in the care of Greyhound Adoption
+          League of Texas (GALT). Click on a hound to learn more.
+        </p>
+        <p>
+          Click on the button to view the details as an expanded drawer or as a
+          modal.{' '}
+        </p>
+        {!isLoading && !error && (
+          <button
+            className="header-btn"
+            onClick={() => {
+              setExpandable((prev) => !prev);
+            }}
+          >
+            {expandable
+              ? 'Switch to separate card mode'
+              : 'Switch to accordion mode'}
+          </button>
+        )}
+      </Header>
+      <main>
+        {isLoading && <p>Loading ... MAKE A LOADING COMPONENT</p>}
+        {error && <p>Uh oh. {error}</p>}
+        {!isLoading && !error && (
+          <Table
+            dogData={dogData}
+            expandable={expandable}
+            selectedDog={selectedDog}
+            onRowClick={handleRowClick}
+          />
+        )}
+      </main>
+      {selectedDog && !expandable && (
+        <CardModal
+          selectedDogData={selectedDog}
+          handleCloseModal={handleCloseModal}
+        />
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
