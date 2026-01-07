@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import {galtDogs} from './data/dogData';
 
+import Header from './components/Header'
 import Table from './components/Table'
 import CardModal from './components/CardModal'
 
@@ -55,9 +56,13 @@ useEffect(() => {
 
   return (
     <>
+    <Header title="Available Greyhounds">
+      <p>These are the greyhounds currently in the care of Greyhound Adoption League of Texas (GALT). Click on a hound to learn more.</p>
+      <p>Click on the button to view the details as an expanded drawer or as a modal. </p>
+      {!isLoading && !error && <button onClick={()=>{setExpandable(prev => !prev)}}>{expandable ? "Switch to separate card mode" : "Switch to accordion mode"}</button>}
+    </Header>
       {isLoading && <p>Loading ... MAKE A LOADING COMPONENT</p>}
       {error && <p>Uh oh. {error}</p>}
-      {!isLoading && !error && <button onClick={()=>{setExpandable(prev => !prev)}}>{expandable ? "Switch to separate card mode" : "Switch to accordion mode"}</button>}
       {!isLoading && !error && <Table dogData={dogData} expandable={expandable} onRowClick={handleRowClick}/>}
       { selectedDog && !expandable && <CardModal selectedDogData={selectedDog} handleCloseModal={handleCloseModal}/>}
     </>
