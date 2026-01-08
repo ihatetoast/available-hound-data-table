@@ -68,6 +68,7 @@ h1,
   flex-direction: column;
   gap: 0.25rem;
   align-items: center;
+  margin-top: 1rem;
 }
 .header-btn {
   background-color: var(--green);
@@ -76,8 +77,9 @@ h1,
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 1rem;
-  border: none;
-  width: fit-content;
+  border-color: var(--green);
+  border-style: solid;
+  width: 80%;
 }
 
 .header-btn:hover,
@@ -97,7 +99,7 @@ main {
 
 /* TABLE */
 .table-container {
-  border-radius: 0.5rem 0.5rem 0 0 ;
+  border-radius: 0.5rem 0.5rem 0 0;
   overflow: hidden;
   width: 100%;
 }
@@ -109,7 +111,6 @@ table {
 
 thead {
   background-color: var(--pink-dark);
-
 }
 
 thead th {
@@ -123,55 +124,72 @@ td {
 }
 /* EXPANDABLE ROW  */
 .dog-name {
-position: relative;
+  position: relative;
 }
 
 .expand-chevron {
-  position:absolute;
+  position: absolute;
   right: 0;
   top: 10px;
   width: 0.5rem;
   height: 0.5rem;
   display: inline-block;
   border-left: 2px solid var(--black);
-  border-bottom:2px  solid var(--black);
+  border-bottom: 2px solid var(--black);
   transform: rotate(-45deg);
-  transition: all .2s;
+  transition: all 0.2s;
 }
 
 .expand-chevron.opened {
-    transform: rotate(135deg);
-    transition: all .2s;
+  transform: rotate(135deg);
+  transition: all 0.2s;
 }
 .detail-row-media-desktop {
-  display:none;
-} 
+  display: none;
+}
 .detail-row-media-mobile {
-  margin-top: 1rem;
+  margin: 1rem;
   display: flex;
   justify-content: center;
   gap: 1rem;
-
 }
 
-.detail-row-image-container {
+.detail-row-media-mobile.detail-row-image-container {
   width: 120px;
   height: 120px;
   overflow: hidden;
   border-radius: 0.5rem;
-
 }
-.detail-row-image-container img {
+
+.detail-row-media-desktop .detail-row-image-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.detail-row-media-desktop .detail-row-image img,
+.detail-row-media-mobile.detail-row-image-container img {
   width: 100%;
 }
 
-.detail-row-video-link{
+.detail-row-media-desktop .detail-row-image {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+}
+
+.detail-row-media-desktop .detail-row-image img {
+  object-fit: cover;
+}
+
+.detail-row-video-link {
   background-color: var(--pink-dark);
   color: var(--white);
   text-align: center;
   padding: 0.5rem 1rem;
   border-radius: 20px;
-  align-self: flex-start;
+  align-self: center;
 }
 
 .detail-row-video-link:hover,
@@ -180,7 +198,12 @@ position: relative;
   color: var(--black);
 }
 
-
+.detail-pedigree {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem;
+}
 
 .main-row.selected {
   background-color: var(--pink);
@@ -192,7 +215,6 @@ position: relative;
 .detail-row {
   display: none;
   height: 0;
-  animation: unexpand 0.4s ease;
 }
 
 .detail-row.open {
@@ -204,7 +226,7 @@ position: relative;
 .detail-row.open td {
   padding: 0.25rem 0.25rem;
 }
-.detail-row.open .details-container  {
+.detail-row.open .details-container {
   background-color: var(--white);
   padding: 0.25rem 0.25rem;
 }
@@ -213,27 +235,6 @@ position: relative;
 }
 .detail-row-bio p {
   font-weight: 700;
-}
-
-@keyframes expand {
-  from {
-    opacity: 0;
-    transform: scaleY(0);
-  }
-  to {
-    opacity: 1;
-    transform: scaleY(1);
-  }
-}
-@keyframes unexpand {
-  from {
-    opacity: 1;
-    transform: scaleY(1);
-  }
-  to {
-    opacity: 0;
-    transform: scaleY(0);
-  }
 }
 
 .cat-cell::before {
@@ -354,7 +355,7 @@ position: relative;
   margin-right: 0.5rem;
 }
 
-.traits .pedigree {
+.pedigree {
   margin-right: 0.25rem;
   padding: 0.25rem 0.5rem;
   display: inline-block;
@@ -383,12 +384,12 @@ position: relative;
   width: 1rem;
   position: relative;
   padding: 10px 25px;
-  border:none;
-  display:none;
+  border: none;
+  display: none;
 }
 
 .nav-btn::before {
-  content: "";
+  content: '';
   position: absolute;
   display: inline-block;
   border: 1rem solid transparent;
@@ -397,12 +398,12 @@ position: relative;
 }
 
 .nav-btn.prev::before {
-  border-right-color: var(--white); 
-  left: 10px; 
+  border-right-color: var(--white);
+  left: 10px;
 }
 .nav-btn.next::before {
-  border-left-color: var(--white); 
-  left: 10px; 
+  border-left-color: var(--white);
+  left: 10px;
 }
 
 .nav-dots-container {
@@ -418,12 +419,12 @@ position: relative;
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
-  background-color: var(--dark-grey)
+  background-color: var(--dark-grey);
 }
 
 .nav-dot.active {
   background-color: var(--black);
-  width:1.1rem;
+  width: 1.1rem;
   height: 1.1rem;
 }
 
@@ -457,6 +458,38 @@ position: relative;
   border-color: var(--black);
 }
 
+/* LOADING COMPONENT  */
+.loading-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loading-dog-emoji {
+  width: 50px;
+  height: 50px;
+  font-size: 2rem;
+  border-radius: 50%;
+  background-color: var(--yellow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+
+  /* Apply the animation */
+  animation: rock 0.2s ease-in-out infinite alternate;
+}
+
+@keyframes rock {
+  0% {
+    /* Start position: slightly rotated left */
+    transform: rotate(-10deg);
+  }
+  100% {
+    /* End position: slightly rotated right */
+    transform: rotate(10deg);
+  }
+}
 
 @media screen and (min-width: 425px) {
   th,
@@ -472,16 +505,21 @@ position: relative;
   .image-container img {
     width: 80%;
   }
+
+  .expand-chevron {
+    top: 15px;
+  }
 }
 
 @media screen and (min-width: 768px) {
   .header-btns-container {
-  flex-direction: row;
-  justify-content: center;
-}
+    flex-direction: row;
+    justify-content: center;
+  }
 
   .header-btn {
-    margin: 1rem 0.5rem; 
+    margin: 1rem 0.5rem;
+    width: 16rem;
   }
 
   header,
@@ -520,7 +558,6 @@ position: relative;
   .image-container img {
     width: 60%;
   }
-
 }
 
 /* MODAL GOES SIDE BY SIDE AT 900  */
@@ -599,20 +636,20 @@ position: relative;
   }
 
   .main-row:hover,
-.main-row:focus  {
-  cursor: pointer;
-  background-color: var(--pink-light);
-}
+  .main-row:focus {
+    cursor: pointer;
+    background-color: var(--pink-light);
+  }
 
-  .detail-row-media-desktop{
-      display:flex;
-  } 
+  .detail-row-media-desktop {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
   .detail-row-media-mobile {
     display: none;
   }
-
 }
-
 
 /* ANIMATIONS  */
 
@@ -626,19 +663,13 @@ position: relative;
     opacity: 1;
   }
 }
-
-
-
-/* TO ADDRESS: 
-
-MEDIA ON MODAL:
-handle the image size so there is no jumping. 
-make the nav arrows pos abs and slightly over the image
-avoid jumpiness that now happens because images are different
-
-HEADER BUTTONS: 
-on click or hover, have a border, so a border needs to be there for regular 
-and fix the width so that the content doesn't make it jumpy
-
-
-*/
+@keyframes expand {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}

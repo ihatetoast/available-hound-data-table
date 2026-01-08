@@ -1,9 +1,6 @@
-import { useState } from 'react';
-
 import { getAgeInYears } from '../helpers';
 
-const TableRow = ({ dog, isSelected, expandable, onRowClick }) => {
-  const [openRow, setOpenRow] = useState(isSelected);
+const TableRow = ({ dog, isSelected, expandable, isExpanded, onRowClick }) => {
   const shortCatText =
     dog.cats === 'unknown' ? '?' : dog.cats === 'no' ? 'N' : 'Y';
 
@@ -29,21 +26,15 @@ const TableRow = ({ dog, isSelected, expandable, onRowClick }) => {
       : 'Available';
 
   function handleRowClick(dog) {
-    if(expandable) {
-      setOpenRow((prev) => !prev);
-    }
     onRowClick(dog);
   }
 
-  // TOMORROW: WORK ON THE DRAWER STAYING OPEN WHEN ANOTHER IS CLICKED. 
-
   const pedigreeText = dog.pedigree === 'yes' ? 'greyhound' : 'sighthound mix';
-
   return (
     <>
       <tr
         className={`main-row ${expandable ? 'expandable' : ''} ${
-          isSelected ? 'selected' : ''
+          isSelected || isExpanded ? 'selected' : ''
         }`}
         onClick={() => handleRowClick(dog)}
       >
@@ -51,7 +42,7 @@ const TableRow = ({ dog, isSelected, expandable, onRowClick }) => {
           {dog.name}
           {expandable && (
             <span
-              className={`expand-chevron ${openRow ? 'opened' : ''}`}
+              className={`expand-chevron ${isExpanded ? 'opened' : ''}`}
             ></span>
           )}
         </td>
@@ -69,16 +60,17 @@ const TableRow = ({ dog, isSelected, expandable, onRowClick }) => {
         ></td>
       </tr>
       {expandable && (
-        <tr className={`detail-row ${openRow ? 'open' : ''}`}>
+        <tr className={`detail-row ${isExpanded ? 'open' : ''}`}>
           <td colSpan={5}>
             <div className='details-container'>
               <div className='detail-row-dog-info'>
                 <h3 className='detail-row-intro'>
-                  {dog.name} is a {dog.color} {pedigreeText} from {dog.originLocation}.
+                  {dog.name} is a {dog.color} {pedigreeText} from{' '}
+                  {dog.originLocation}.
                 </h3>
                 <div className='detail-row-bio'>
                   <p>Notes from {dog.name}'s carers:</p>
-                    {dog.bio}
+                  {dog.bio}
                 </div>
                 <div className='detail-row-media-mobile'>
                   <div className='detail-row-image-container'>
@@ -87,7 +79,7 @@ const TableRow = ({ dog, isSelected, expandable, onRowClick }) => {
                       alt={`a ${dog.color} greyhound`}
                     />
                   </div>
-                  {dog.media.videoUrl &&
+                  {dog.media.videoUrl && (
                     <a
                       className='detail-row-video-link'
                       href={dog.media.videoUrl}
@@ -96,9 +88,39 @@ const TableRow = ({ dog, isSelected, expandable, onRowClick }) => {
                     >
                       {dog.name}'s video
                     </a>
-                  }
+                  )}
                 </div>
-                <div className='detail-row-media-desktop'></div>
+                {(dog.sire || dog.dam) && (
+                  <div className='detail-pedigree'>
+                    {dog.sire && (
+                      <span className='pedigree male'>Sire: {dog.sire}</span>
+                    )}
+                    {dog.dam && (
+                      <span className='pedigree female'>Dam: {dog.dam}</span>
+                    )}
+                  </div>
+                )}
+
+                <div className='detail-row-media-desktop'>
+                  <div className='detail-row-image-container'>
+        
+                      {dog.media.imageGallery.map(image =><div className='detail-row-image'><img
+                      src={image}
+                      alt={`a ${dog.color} greyhound`}
+                      /></div>)}
+                    
+                  </div>
+                  {dog.media.videoUrl && (
+                    <a
+                      className='detail-row-video-link'
+                      href={dog.media.videoUrl}
+                      target='_blank'
+                      rel='noreferrer'
+                    >
+                      {dog.name}'s video
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           </td>

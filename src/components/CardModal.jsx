@@ -13,7 +13,7 @@ const CardModal = ({ selectedDogData, dotsOnHorizontal, handleCloseModal }) => {
 // TERNARY TEXT 
   const catText = selectedDogData.cats === "no" 
   ? "No cats" 
-  : selectedDogData.cats === "yes" ? "Cats OK" : "Unknown";
+  : selectedDogData.cats === "yes" ? "Cats OK" : "";
   const pedigreeText = selectedDogData.pedigree === "yes" ? "Greyhound" : "Sighthound mix";
 
 // TERNARY CLASS
