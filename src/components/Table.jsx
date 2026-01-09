@@ -2,7 +2,7 @@ import React from 'react';
 
 import TableRow from './TableRow';
 
-const Table = ({ dogData, expandable, expandedDogId, selectedDog, onRowClick, onHeaderNameClick,onHeaderAgeClick }) => {
+const Table = ({ dogData, expandable, expandedDogId, selectedDog, onRowClick, onHeaderNameClick, onHeaderAgeClick }) => {
   return (
     <div className='table-container'>
       <table>

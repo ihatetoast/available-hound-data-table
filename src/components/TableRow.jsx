@@ -100,11 +100,9 @@ const TableRow = ({ dog, isSelected, expandable, isExpanded, onRowClick }) => {
                     )}
                   </div>
                 )}
-
                 <div className='detail-row-media-desktop'>
                   <div className='detail-row-image-container'>
-        
-                      {dog.media.imageGallery.map(image =><div className='detail-row-image'><img
+                      {dog.media.imageGallery.map((image, idx) =><div key={idx} className='detail-row-image'><img
                       src={image}
                       alt={`a ${dog.color} greyhound`}
                       /></div>)}

@@ -13,7 +13,7 @@ const SlideShow = ({ images,dotsOnHorizontal, color }) => {
   function goToImage(idx) {
     setCurrIdx(idx);
   }
-console.log("dots on horizontal? ", dotsOnHorizontal);
+
   return (
     <div className='slideshow-container'>
       <div className='image-container'>
@@ -21,7 +21,6 @@ console.log("dots on horizontal? ", dotsOnHorizontal);
         <img src={images[currIdx]} alt={`a ${color} greyhound`} />
         <button onClick={handleNextImage} className={`nav-btn next ${dotsOnHorizontal ? "hideOnHorizontal" : ''}`}></button>
       </div>
-
       <div className={`nav-dots-container ${dotsOnHorizontal ? "showOnHorizontal" : ''}`}>
         {images.map((img, idx) => (
           <span

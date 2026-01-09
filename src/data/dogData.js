@@ -107,7 +107,9 @@ export const galtDogs = [
     bio: `Crissy is a very happy girl. She has adjusted beautifully to life as an only dog in a city apartment.\n\nFrom day one she has handled elevators, crowds and traffic like a champ. She has had zero potty issues and has asked politely to go outside on the rare occasions she can't wait for her regular walk times.\n\nCrissy is an absolute love. She is super affectionate and a big chatterer. One of her cutest attributes is when she is particularly happy and content, she “purrs” like a kitten. She is obedient and very easy to handle. This girl is such a pleasure and so far has shown no diva tendencies. Is that because she doesn't have to share our attention with other dogs? Maybe. All I can say is she is easy-peasy to love and care for.`,
     media: {
       videoUrl: 'https://www.youtube.com/watch?v=iWPo2X6suVI',
-      imageGallery: ['https://galtx.org/wp-content/uploads/2025/04/crissy1.jpg'],
+      imageGallery: [
+        'https://galtx.org/wp-content/uploads/2025/04/crissy1.jpg',
+      ],
     },
   },
   {
@@ -346,14 +348,13 @@ export const galtDogs = [
       imageGallery: [
         'https://galtx.org/wp-content/uploads/2025/07/shiner21.jpg',
         'https://galtx.org/wp-content/uploads/2025/07/shiner22.jpg',
-        '',
       ],
     },
   },
   {
     id: 17,
-    name: "Xander",
-    originLocation: '',
+    name: 'Xander',
+    originLocation: 'USA',
     sex: 'male',
     pedigree: 'yes',
     color: 'red fawn',
@@ -365,7 +366,11 @@ export const galtDogs = [
     bio: `Xander was surrendered to GALT due to changes in the family's living arrangements.\n\nHe's a big boy at 85 lbs and is a pure gentleman, with the most peaceful personality. He is food-motivated and received his Good Citizen training certificate. He is calm and rock steady except when he tap dances for his meals! He stands quietly and patiently for all handling and procedures and has lived with other large and smallish/medium dogs; he cannot live with cats.`,
     media: {
       videoUrl: 'https://www.youtube.com/watch?v=1F_rYSvOFhA',
-      imageGallery: ['https://galtx.org/wp-content/uploads/2024/05/xander22.jpg', 'https://galtx.org/wp-content/uploads/2024/05/xander24.jpg','https://galtx.org/wp-content/uploads/2024/05/xander23.jpg', '' ],
+      imageGallery: [
+        'https://galtx.org/wp-content/uploads/2024/05/xander22.jpg',
+        'https://galtx.org/wp-content/uploads/2024/05/xander24.jpg',
+        'https://galtx.org/wp-content/uploads/2024/05/xander23.jpg',
+      ],
     },
   },
   {
@@ -405,7 +410,10 @@ export const galtDogs = [
     bio: `Mixer, aka Mr. Mixer, ran 11 races according to greyhound-data.com starting at Naples-Ft. Myers in Bonita Springs, FL on April 9, 2017 and finishing at Mobile Greyhound Park in AL on August 18, 2017. Mixer is ready to have a family to call his own now. It is not known at this time if Mixer is cat or small animal tolerant.`,
     media: {
       videoUrl: null,
-      imageGallery: ['https://galtx.org/wp-content/uploads/2025/11/mixer1.jpg', 'https://galtx.org/wp-content/uploads/2025/11/mixer2.jpg'],
+      imageGallery: [
+        'https://galtx.org/wp-content/uploads/2025/11/mixer1.jpg',
+        'https://galtx.org/wp-content/uploads/2025/11/mixer2.jpg',
+      ],
     },
   },
   {
@@ -418,13 +426,15 @@ export const galtDogs = [
     cats: 'no',
     status: 'available',
     whelped: 'October 21, 2015',
-    sire: 'Djay\'s Octane',
+    sire: "Djay's Octane",
     dam: 'Slatex Pluto',
     bio: `Shane, aka Slatex Shame, is a red fawn male. His sire is Djay's Octane and his dam is GALT's Slatex Pluto . Shane has 103 races under his collar and is undergoing medical evaluation. Shane is not cat tolerant.`,
     media: {
       videoUrl: 'https://www.youtube.com/watch?v=x-kVdn0eTTI&t=2s',
-      imageGallery: ['https://galtx.org/wp-content/uploads/2025/09/shane21.jpg', 'https://galtx.org/wp-content/uploads/2025/09/shane22.jpg'],
+      imageGallery: [
+        'https://galtx.org/wp-content/uploads/2025/09/shane21.jpg',
+        'https://galtx.org/wp-content/uploads/2025/09/shane22.jpg',
+      ],
     },
   },
 ];
-//<p style={{ whiteSpace: 'pre-line' }}>{dog.bio}</p>
