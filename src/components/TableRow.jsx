@@ -14,14 +14,14 @@ const TableRow = ({ dog, isSelected, expandable, isExpanded, onRowClick }) => {
   const shortStatusText =
     dog.status === 'adoption pending'
       ? 'Pending'
-      : dog.status === 'adopted' || dog.status === 'injured reserve'
+      : dog.status === 'adopted' || dog.status === 'injured reserve' || dog.status === 'training camp'
       ? 'Unavail'
       : 'Avail';
 
   const longStatusText =
     dog.status === 'adoption pending'
       ? 'Adoption pending'
-      : dog.status === 'adopted' || dog.status === 'injured reserve'
+      : dog.status === 'adopted' || dog.status === 'injured reserve' || dog.status === 'training camp'
       ? 'Unavailable'
       : 'Available';
 
@@ -32,8 +32,9 @@ const TableRow = ({ dog, isSelected, expandable, isExpanded, onRowClick }) => {
   const pedigreeText = dog.pedigree === 'yes' ? 'greyhound' : 'sighthound mix';
   return (
     <>
-      <tr
-        className={`main-row ${expandable ? 'expandable' : ''} ${
+      <tr 
+        role="button"
+        className={`main-row clickable ${expandable ? 'expandable' : ''} ${
           isSelected || isExpanded ? 'selected' : ''
         }`}
         onClick={() => handleRowClick(dog)}

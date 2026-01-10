@@ -1,7 +1,6 @@
 import React from 'react'
 import Button from './Button'
 const ButtonFilter = ({options, classes, onOptionClick }) => {
-  console.log(options);
 
   function handleFilterBtnClick(value){
     onOptionClick(value)

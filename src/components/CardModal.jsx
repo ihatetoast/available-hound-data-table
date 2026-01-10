@@ -17,9 +17,13 @@ const CardModal = ({ selectedDogData, dotsOnHorizontal, handleCloseModal }) => {
   const pedigreeText = selectedDogData.pedigree === "yes" ? "Greyhound" : "Sighthound mix";
 
 // TERNARY CLASS
+// adopted eventually get removed after a waiting pd. 
+// training camp have yet to be assessed. will become avail
+// injured reserved are waiting for medical issues for clearance. will become avail
+  const unavail = selectedDogData.status === "adopted" || selectedDogData.status === "injured reserve" || selectedDogData.status === 'training camp';
   const statusClass = selectedDogData.status === "adoption pending" 
   ? "pending" 
-  : (selectedDogData.status === "adopted" || selectedDogData.status === "injured reserve") ? "unavailable" : "available";
+  : unavail ? "unavailable" : "available";
 
   return createPortal(
     <dialog className='modal' ref={dialog} onClose={handleCloseModal}>

@@ -39,23 +39,31 @@ const filterOptions = {
 };
 
 function App() {
+  // mock db consts
   const [isLoading, setIsLoading] = useState(true);
-  const [dogData, setDogData] = useState([]);
-  const [filteredDogs, setFilteredDogs] = useState([]);
   const [error, setError] = useState(null);
+  const [dogData, setDogData] = useState([]); // src of truth
+  // mutable and maleable:
+  const [filteredDogs, setFilteredDogs] = useState([]);
+  // consts for the modal/drawers, highlighted rows, handling dots on desktop
   const [selectedDog, setSelectedDog] = useState(null);
   const [expandedDogId, setExpandedDogId] = useState(null);
   const [expandable, setExpandable] = useState(false);
   const [dotsOnHorizontal, setDotsOnHorizontal] = useState(false);
+  
   // can be sorted by name and age
-  const [nameAtoZ, setNameAtoZ] = useState(false);
-  const [ageAsc, setAgeAsc] = useState(false);
+  const [sortConfig, setSortConfig] = useState({
+    column: null, // null/unsorted or 'age' or 'name
+    direction: null, // null is unsorted asc or desc
+  });
+
   // can filter for cat safe OR just not "no cats" (cats ok and unknown) & male/female
   const [filters, setFilters] = useState({
     cats: '',
     sex: '',
   });
-  const filtersAreEmpty = Object.values(filters).every(x => x === '');
+  // for resetting
+  const filtersAreEmpty = Object.values(filters).every((x) => x === '');
 
   useEffect(() => {
     const loadHounds = async () => {
@@ -95,37 +103,31 @@ function App() {
     setExpandedDogId(null);
   }
 
-  function handleHeaderNameClick() {
+  function handleHeaderClick(column) {
     const newData = [...dogData];
-    if (!nameAtoZ) {
-      const sortedName = newData.sort((a, b) => a.name.localeCompare(b.name));
-      setDogData(sortedName);
-      setNameAtoZ(true);
+    let newDir;
+    if(sortConfig.column !== column) {
+      console.log("sortConfig.column !== column");
+      newDir = 'asc';
     } else {
-      const sortedName = newData.sort((a, b) => b.name.localeCompare(a.name));
-      setDogData(sortedName);
-      setNameAtoZ(false);
+      console.log("toggle");
+      newDir = sortConfig.direction === 'asc' ? 'desc' : 'asc';
     }
-  }
-  function handleHeaderAgeClick() {
-    const newData = [...dogData];
-    if (!ageAsc) {
+    if (column === 'name') {
+      const sortedName = newData.sort((a, b) =>
+        newDir === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
+      );
+      setDogData(sortedName);
+    }
+    if (column === 'age') {
       const sortedAge = newData.sort((a, b) => {
         const aYrs = getAgeInYears(a.whelped);
         const bYrs = getAgeInYears(b.whelped);
-        return aYrs - bYrs;
+        return newDir === 'asc' ? aYrs - bYrs : bYrs - aYrs;
       });
       setDogData(sortedAge);
-      setAgeAsc(true);
-    } else {
-      const sortedAge = newData.sort((a, b) => {
-        const aYrs = getAgeInYears(a.whelped);
-        const bYrs = getAgeInYears(b.whelped);
-        return bYrs - aYrs;
-      });
-      setDogData(sortedAge);
-      setAgeAsc(false);
     }
+    setSortConfig({column, direction: newDir})
   }
 
   // header btns' fcn for demo f
@@ -145,7 +147,7 @@ function App() {
     });
   }
 
-  function handleCatsFilter(value) { 
+  function handleCatsFilter(value) {
     setFilters({
       ...filters,
       cats: value,
@@ -156,14 +158,17 @@ function App() {
     const dogsToLoad = dogData.filter((dog) => {
       const matchesSex = filters.sex === '' || filters.sex === dog.sex;
       let matchesCats = true;
-      if(filters.cats !== '') {
-        matchesCats = filters.cats === 'maybe' ? dog.cats !== 'no' : filters.cats === dog.cats;
+      if (filters.cats !== '') {
+        matchesCats =
+          filters.cats === 'maybe'
+            ? dog.cats !== 'no'
+            : filters.cats === dog.cats;
       }
       return matchesCats && matchesSex;
-    })
+    });
     setFilteredDogs(dogsToLoad);
   }, [filters, dogData]);
-console.log("filters are empty: ", filtersAreEmpty);
+
   return (
     <>
       <Header title="GALT's Greyhounds">
@@ -174,10 +179,9 @@ console.log("filters are empty: ", filtersAreEmpty);
         <p>
           <strong>
             <span className='warning'>NOTE:</span> Hounds recently adopted or on
-            the injured reserved (IR) list appear as unavailable until removed
-            from IR or their adoption probationary period has lapsed and are
+            the injured reserved or training camp list appear as unavailable until removed or their adoption probationary period has lapsed and are
             removed entirely.
-          </strong>{' '}
+          </strong>
         </p>
         {!isLoading && !error && (
           <div className='header-btns-container'>
@@ -225,10 +229,24 @@ console.log("filters are empty: ", filtersAreEmpty);
               />
             </section>
             <section className='button-filter-section'>
-              <span className="filters-title">Filters:</span>
-              <Button classes="default" onClick={()=>setFilters({sex: '', cats: ''})} disabled={filtersAreEmpty}>Clear all</Button>
-              <ButtonFilter classes="lilac" options={filterOptions['sex']} onOptionClick={handleSexFilter}/>
-              <ButtonFilter classes="cyan" options={filterOptions['cats']} onOptionClick={handleCatsFilter}/>
+              <span className='filters-title'>Filters:</span>
+              <Button
+                classes='default'
+                onClick={() => setFilters({ sex: '', cats: '' })}
+                disabled={filtersAreEmpty}
+              >
+                Clear all
+              </Button>
+              <ButtonFilter
+                classes='lilac'
+                options={filterOptions['sex']}
+                onOptionClick={handleSexFilter}
+              />
+              <ButtonFilter
+                classes='cyan'
+                options={filterOptions['cats']}
+                onOptionClick={handleCatsFilter}
+              />
             </section>
           </>
         )}
@@ -238,10 +256,9 @@ console.log("filters are empty: ", filtersAreEmpty);
             expandable={expandable}
             selectedDog={selectedDog}
             expandedDogId={expandedDogId}
+            sortConfig={sortConfig}
             onRowClick={handleRowClick}
-            onHeaderNameClick={handleHeaderNameClick}
-            onHeaderAgeClick={handleHeaderAgeClick}
-            isAtoZ={nameAtoZ}
+            onHeaderClick={handleHeaderClick}
           />
         )}
       </main>
