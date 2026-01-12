@@ -13,21 +13,21 @@ const SlideShow = ({ images,dotsOnHorizontal, color }) => {
   function goToImage(idx) {
     setCurrIdx(idx);
   }
-
+// to do. change the arrow from css to icon or image for a11y
   return (
     <div className='slideshow-container'>
       <div className='image-container'>
-        <button onClick={handlePrevImage} className={`nav-btn prev ${dotsOnHorizontal ? "hideOnHorizontal" : ''}`}></button>
+        <button onClick={handlePrevImage} className={`nav-btn prev ${dotsOnHorizontal ? "hideOnHorizontal" : ''}` } aria-label="Previous image"></button>
         <img src={images[currIdx]} alt={`a ${color} greyhound`} />
-        <button onClick={handleNextImage} className={`nav-btn next ${dotsOnHorizontal ? "hideOnHorizontal" : ''}`}></button>
+        <button onClick={handleNextImage} className={`nav-btn next ${dotsOnHorizontal ? "hideOnHorizontal" : ''}`} aria-label="Next image"></button>
       </div>
       <div className={`nav-dots-container ${dotsOnHorizontal ? "showOnHorizontal" : ''}`}>
         {images.map((img, idx) => (
-          <span
+          <button
             onClick={() => goToImage(idx)}
             key={idx}
             className={`nav-dot ${idx === currIdx ? 'active' : ''}`}
-          ></span>
+          ></button>
         ))}
       </div>
     </div>

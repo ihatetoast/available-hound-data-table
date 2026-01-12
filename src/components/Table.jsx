@@ -16,7 +16,7 @@ const Table = ({
 
 
 
-  function handleNameClick(col) {
+  function handleHeaderClick(col) {
     onHeaderClick(col);
     // start the anim for th, and state which one it is
     setAnimatingCol(col); // logs as expected
@@ -25,7 +25,7 @@ const Table = ({
       setAnimatingCol(null);
     }, 800);
   }
-console.log("in table / animatingCol ", animatingCol);
+
   return (
     <div className='table-container'>
       <table>
@@ -36,20 +36,20 @@ console.log("in table / animatingCol ", animatingCol);
               animatedText={{ asc: 'A – Z', desc: 'Z – A' }}
               column='name'
               animatingCol={animatingCol}
-              onHeadClick={handleNameClick}
+              onHeadClick={handleHeaderClick}
               sortConfig={sortConfig}
             />
-            <th>Sex</th>
+            <th scope="col">Sex</th>
             <TableHeadButton
               text='Age'
               animatedText={{ asc: '1 – 99', desc: '99 – 1' }}
               column='age'
               animatingCol={animatingCol}
-              onHeadClick={handleNameClick}
+              onHeadClick={handleHeaderClick}
               sortConfig={sortConfig}
             />
-            <th>Cat-safe</th>
-            <th>status</th>
+            <th scope="col">Cat-safe</th>
+            <th scope="col">status</th>
           </tr>
         </thead>
         <tbody>

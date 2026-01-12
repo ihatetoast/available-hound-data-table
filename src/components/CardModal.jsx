@@ -1,29 +1,22 @@
 import { useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
-import {getAgeInYears} from '../helpers';
+import {getAgeInYears, getStatusClass} from '../helpers';
 import SlideShow from './SlideShow';
 const CardModal = ({ selectedDogData, dotsOnHorizontal, handleCloseModal }) => {
   const dialog = useRef();
 
   useEffect(() => {
     dialog.current.showModal();
-  });
+  }, []);
   
 // TERNARY TEXT 
   const catText = selectedDogData.cats === "no" 
   ? "No cats" 
-  : selectedDogData.cats === "yes" ? "Cats OK" : "";
+  : selectedDogData.cats === "yes" ? "Cats OK" : "Cats unknown";
   const pedigreeText = selectedDogData.pedigree === "yes" ? "Greyhound" : "Sighthound mix";
 
-// TERNARY CLASS
-// adopted eventually get removed after a waiting pd. 
-// training camp have yet to be assessed. will become avail
-// injured reserved are waiting for medical issues for clearance. will become avail
-  const unavail = selectedDogData.status === "adopted" || selectedDogData.status === "injured reserve" || selectedDogData.status === 'training camp';
-  const statusClass = selectedDogData.status === "adoption pending" 
-  ? "pending" 
-  : unavail ? "unavailable" : "available";
+  const statusClass = getStatusClass(selectedDogData.status);
 
   return createPortal(
     <dialog className='modal' ref={dialog} onClose={handleCloseModal}>
@@ -61,16 +54,10 @@ const CardModal = ({ selectedDogData, dotsOnHorizontal, handleCloseModal }) => {
           }
         </div>
       </div>
-      <button className="close-modal-btn" onClick={handleCloseModal}>X</button>
+      <button className="close-modal-btn" onClick={handleCloseModal} aria-label="Close modal">X</button>
     </dialog>,
     document.getElementById('modal')
   );
 };
 
 export default CardModal;
-
-/**
- * IDEA ZONE
- * https://dribbble.com/shots/5277735-Dogs-Adoption-Landing-Page for colour
- * https://dribbble.com/shots/4411022-Dog-adoption-Concept for text part and arrows
- */

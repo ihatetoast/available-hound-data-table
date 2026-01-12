@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-
+import { useDogFilters} from './hooks/useDogFilters';
+import {useDogSort} from './hooks/useDogSort'
 import { galtDogs } from './data/dogData';
-import { getAgeInYears } from './helpers';
 
 import Header from './components/Header';
 import Button from './components/Button';
@@ -39,31 +39,20 @@ const filterOptions = {
 };
 
 function App() {
-  // mock db consts
+    const [dogData, setDogData] = useState([]); // src of truth (filteredDogs for changing)
+// hooks (chained):
+    const { filteredDogs, filtersAreEmpty, handleSexFilter, handleCatsFilter, clearFilters} = useDogFilters(dogData);
+    const {sortedData, sortConfig, handleHeaderClick} = useDogSort( filteredDogs);
+   // mock db consts
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [dogData, setDogData] = useState([]); // src of truth
-  // mutable and maleable:
-  const [filteredDogs, setFilteredDogs] = useState([]);
+  // custom hook with dogData passed in
   // consts for the modal/drawers, highlighted rows, handling dots on desktop
   const [selectedDog, setSelectedDog] = useState(null);
   const [expandedDogId, setExpandedDogId] = useState(null);
   const [expandable, setExpandable] = useState(false);
   const [dotsOnHorizontal, setDotsOnHorizontal] = useState(false);
   
-  // can be sorted by name and age
-  const [sortConfig, setSortConfig] = useState({
-    column: null, // null/unsorted or 'age' or 'name
-    direction: null, // null is unsorted asc or desc
-  });
-
-  // can filter for cat safe OR just not "no cats" (cats ok and unknown) & male/female
-  const [filters, setFilters] = useState({
-    cats: '',
-    sex: '',
-  });
-  // for resetting
-  const filtersAreEmpty = Object.values(filters).every((x) => x === '');
 
   useEffect(() => {
     const loadHounds = async () => {
@@ -73,7 +62,6 @@ function App() {
         const data = await fetchHoundsData(false); // test for success
         //const data = await fetchHoundsData(true); // test for fail
         setDogData(data);
-        setFilteredDogs(data);
       } catch (err) {
         console.log(err);
         setError('Failed to load hound data.');
@@ -103,33 +91,6 @@ function App() {
     setExpandedDogId(null);
   }
 
-  function handleHeaderClick(column) {
-    const newData = [...dogData];
-    let newDir;
-    if(sortConfig.column !== column) {
-      console.log("sortConfig.column !== column");
-      newDir = 'asc';
-    } else {
-      console.log("toggle");
-      newDir = sortConfig.direction === 'asc' ? 'desc' : 'asc';
-    }
-    if (column === 'name') {
-      const sortedName = newData.sort((a, b) =>
-        newDir === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
-      );
-      setDogData(sortedName);
-    }
-    if (column === 'age') {
-      const sortedAge = newData.sort((a, b) => {
-        const aYrs = getAgeInYears(a.whelped);
-        const bYrs = getAgeInYears(b.whelped);
-        return newDir === 'asc' ? aYrs - bYrs : bYrs - aYrs;
-      });
-      setDogData(sortedAge);
-    }
-    setSortConfig({column, direction: newDir})
-  }
-
   // header btns' fcn for demo f
   function toggleExpandable() {
     setExpandable((prev) => !prev);
@@ -140,34 +101,6 @@ function App() {
     resetTargetDogs();
   }
 
-  function handleSexFilter(value) {
-    setFilters({
-      ...filters,
-      sex: value,
-    });
-  }
-
-  function handleCatsFilter(value) {
-    setFilters({
-      ...filters,
-      cats: value,
-    });
-  }
-
-  useEffect(() => {
-    const dogsToLoad = dogData.filter((dog) => {
-      const matchesSex = filters.sex === '' || filters.sex === dog.sex;
-      let matchesCats = true;
-      if (filters.cats !== '') {
-        matchesCats =
-          filters.cats === 'maybe'
-            ? dog.cats !== 'no'
-            : filters.cats === dog.cats;
-      }
-      return matchesCats && matchesSex;
-    });
-    setFilteredDogs(dogsToLoad);
-  }, [filters, dogData]);
 
   return (
     <>
@@ -185,10 +118,10 @@ function App() {
         </p>
         {!isLoading && !error && (
           <div className='header-btns-container'>
-            <Button classes='green' onClick={toggleExpandable}>
+            <Button className='green' onClick={toggleExpandable}>
               {expandable ? 'Switch to modal mode' : 'Switch to accordion mode'}
             </Button>
-            <Button classes='green' onClick={toggleDotsOnHoriz}>
+            <Button className='green' onClick={toggleDotsOnHoriz}>
               {dotsOnHorizontal
                 ? 'Switch to arrows on horizontal'
                 : 'Switch to dots on horizontal'}
@@ -231,19 +164,19 @@ function App() {
             <section className='button-filter-section'>
               <span className='filters-title'>Filters:</span>
               <Button
-                classes='default'
-                onClick={() => setFilters({ sex: '', cats: '' })}
+                className='default'
+                onClick={clearFilters}
                 disabled={filtersAreEmpty}
               >
                 Clear all
               </Button>
               <ButtonFilter
-                classes='lilac'
+                className='lilac'
                 options={filterOptions['sex']}
                 onOptionClick={handleSexFilter}
               />
               <ButtonFilter
-                classes='cyan'
+                className='cyan'
                 options={filterOptions['cats']}
                 onOptionClick={handleCatsFilter}
               />
@@ -252,7 +185,7 @@ function App() {
         )}
         {!isLoading && !error && (
           <Table
-            dogData={filteredDogs}
+            dogData={sortedData}
             expandable={expandable}
             selectedDog={selectedDog}
             expandedDogId={expandedDogId}
@@ -274,6 +207,3 @@ function App() {
 }
 
 export default App;
-
-// idea for sorting. on hover, temp show waht i am sorting by
-// https://dribbble.com/shots/15178113-Sorting-Interaction

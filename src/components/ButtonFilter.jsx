@@ -1,14 +1,10 @@
-import React from 'react'
 import Button from './Button'
-const ButtonFilter = ({options, classes, onOptionClick }) => {
+const ButtonFilter = ({options, className, onOptionClick }) => {
 
-  function handleFilterBtnClick(value){
-    onOptionClick(value)
-  }
   const filtered = options.filter(opt => opt.value !== '');
   return (
     <div className="button-filter">
-      {filtered.map((opt, idx) => <Button key={idx} classes={classes} onClick={()=>handleFilterBtnClick(opt.value)}>{opt.text}</Button>)}
+      {filtered.map((opt, idx) => <Button key={opt.value || idx} className={className || ""} onClick={()=>onOptionClick(opt.value)}>{opt.text}</Button>)}
     </div>
   )
 }

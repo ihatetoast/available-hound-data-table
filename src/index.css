@@ -776,13 +776,13 @@ td {
     left: 3rem;
   }
 
-  .table-head-unsorted-icon.age {
+  /* .table-head-unsorted-icon.age {
     left: 2rem;
   }
   .table-head-unsorted-icon.show {
     opacity: 1;
     transition: opacity 0.5s ease-in-out;
-  }
+  } */
 
   .table-head-unsorted-icon.hide {
     opacity: 0;

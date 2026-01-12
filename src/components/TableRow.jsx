@@ -25,9 +25,6 @@ const TableRow = ({ dog, isSelected, expandable, isExpanded, onRowClick }) => {
       ? 'Unavailable'
       : 'Available';
 
-  function handleRowClick(dog) {
-    onRowClick(dog);
-  }
 
   const pedigreeText = dog.pedigree === 'yes' ? 'greyhound' : 'sighthound mix';
   return (
@@ -37,7 +34,7 @@ const TableRow = ({ dog, isSelected, expandable, isExpanded, onRowClick }) => {
         className={`main-row clickable ${expandable ? 'expandable' : ''} ${
           isSelected || isExpanded ? 'selected' : ''
         }`}
-        onClick={() => handleRowClick(dog)}
+        onClick={() =>  onRowClick(dog)}
       >
         <td className='dog-name'>
           {dog.name}
