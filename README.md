@@ -34,7 +34,9 @@ Just to have as a reference for when I do sorting, hooks, etc. again. The data i
 * Lucide (icons)
 * Data comes from galtx.org but not by way of scraping--just my tippy tappy typing
 
-## Screenshots
+## Where
+[GALT's Greyhounds](https://www.ihatetoast.com/available-hound-data-table/)
+
 ### desktop
 ![Inital load on desktop](screenshots/galt-gh-desktop-load.png)
 ![Filtered (cats ok) on desktop](screenshots/galt-gh-desktop-filter.png)
