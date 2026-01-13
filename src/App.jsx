@@ -121,7 +121,7 @@ function App() {
             <Button className='green' onClick={toggleExpandable}>
               {expandable ? 'Switch to modal mode' : 'Switch to accordion mode'}
             </Button>
-            <Button className='green' onClick={toggleDotsOnHoriz}>
+            <Button className='green hideOnMobile' onClick={toggleDotsOnHoriz}>
               {dotsOnHorizontal
                 ? 'Switch to arrows on horizontal'
                 : 'Switch to dots on horizontal'}

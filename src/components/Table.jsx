@@ -18,8 +18,7 @@ const Table = ({
 
   function handleHeaderClick(col) {
     onHeaderClick(col);
-    // start the anim for th, and state which one it is
-    setAnimatingCol(col); // logs as expected
+    setAnimatingCol(col); 
     setTimeout(() => {
       // time the anim ..
       setAnimatingCol(null);
@@ -39,7 +38,7 @@ const Table = ({
               onHeadClick={handleHeaderClick}
               sortConfig={sortConfig}
             />
-            <th scope="col">Sex</th>
+            <th className="table-head" scope="col">Sex</th>
             <TableHeadButton
               text='Age'
               animatedText={{ asc: '1 – 99', desc: '99 – 1' }}
@@ -48,8 +47,8 @@ const Table = ({
               onHeadClick={handleHeaderClick}
               sortConfig={sortConfig}
             />
-            <th scope="col">Cat-safe</th>
-            <th scope="col">status</th>
+            <th className="table-head" scope="col">Cat-safe</th>
+            <th className="table-head" scope="col">status</th>
           </tr>
         </thead>
         <tbody>

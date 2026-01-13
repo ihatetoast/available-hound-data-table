@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import {Triangle} from 'lucide-react';
 const SlideShow = ({ images,dotsOnHorizontal, color }) => {
   const [currIdx, setCurrIdx] = useState(0);
 
@@ -17,9 +17,16 @@ const SlideShow = ({ images,dotsOnHorizontal, color }) => {
   return (
     <div className='slideshow-container'>
       <div className='image-container'>
-        <button onClick={handlePrevImage} className={`nav-btn prev ${dotsOnHorizontal ? "hideOnHorizontal" : ''}` } aria-label="Previous image"></button>
-        <img src={images[currIdx]} alt={`a ${color} greyhound`} />
-        <button onClick={handleNextImage} className={`nav-btn next ${dotsOnHorizontal ? "hideOnHorizontal" : ''}`} aria-label="Next image"></button>
+        <button onClick={handlePrevImage} className={`nav-btn prev ${dotsOnHorizontal ? "hideOnHorizontal" : ''}` } aria-label="Previous image">
+          <Triangle size={36} strokeWidth={0.5} />
+        </button>
+        <div className="active-image">
+          <img src={images[currIdx]} alt={`a ${color} greyhound`} />
+        </div>
+        
+        <button onClick={handleNextImage} className={`nav-btn next ${dotsOnHorizontal ? "hideOnHorizontal" : ''}`} aria-label="Next image">
+          <Triangle size={36} strokeWidth={0.5} />
+        </button>
       </div>
       <div className={`nav-dots-container ${dotsOnHorizontal ? "showOnHorizontal" : ''}`}>
         {images.map((img, idx) => (

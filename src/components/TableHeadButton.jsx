@@ -1,3 +1,13 @@
+import {
+  ChevronsUpDown,
+  ChevronUp,
+  ChevronDown,
+  ArrowDownAZ,
+  ArrowDownZA,
+  ArrowDown01,
+  ArrowDown10,
+} from 'lucide-react';
+
 const TableHeadButton = ({
   text,
   animatedText,
@@ -16,45 +26,48 @@ const TableHeadButton = ({
   if (isAnimating) {
     sortIcon = null;
   } else if (isSorted) {
-    sortIcon =
-      dir === 'asc' ? (
-        <span className='table-head-sorted-icon'>▲</span>
-      ) : (
-        <span className='table-head-sorted-icon'>▼</span>
-      );
+    sortIcon = dir === 'asc' ? <ChevronUp /> : <ChevronDown />;
   } else {
-    sortIcon = <span className='table-head-unsorted-icon'>◀▶</span>;
+    sortIcon = <ChevronsUpDown />;
   }
+
   let mobileSortIcon;
   if (isSorted) {
     mobileSortIcon =
       dir === 'asc' ? (
-        <span className='table-head-sorted-icon mobile'>▲</span>
+        column === 'name' ? (
+          <ArrowDownAZ />
+        ) : (
+          <ArrowDown01 />
+        )
+      ) : column === 'name' ? (
+        <ArrowDownZA />
       ) : (
-        <span className='table-head-sorted-icon mobile'>▼</span>
+        <ArrowDown10 />
       );
   } else {
-    mobileSortIcon = (
-      <span className='table-head-unsorted-icon mobile'>◀▶</span>
-    );
+    mobileSortIcon = <ChevronsUpDown />;
   }
-
   return (
-    <th
-      scope="col"
-      role='button'
-      className={`sortable-table-head ${isAnimating ? '' : 'clickable'} `}
-      onClick={() => onHeadClick(column)}
-    >
-      <p className='table-head-sort-col desktop'>
-        <span className={`text ${isAnimating ? '' : 'show'}`}>{text}</span>
-        <span className={`text ${isAnimating ? 'show' : ''}`}>{aniText}</span>
-        {sortIcon}
-      </p>
-      <p className='table-head-sort-col mobile'>
+    <th scope='col' role='button' onClick={() => onHeadClick(column)}>
+      <div className='table-head-sort-col desktop'>
+        <div className='span-cont'>
+          <span className={`text ${isAnimating ? '' : 'show'}`}>{text}</span>
+          <span className={`text ${isAnimating ? 'show' : ''}`}>{aniText}</span>
+        </div>
+<span className="sort-arrows">{sortIcon}</span>
+        
+      </div>
+      <div className='table-head-sort-col mobile'>
         {text}
-        {mobileSortIcon}
-      </p>
+        <span
+          className={`table-head-${
+            isSorted ? 'sorted' : 'unsorted'
+          }-icon mobile`}
+        >
+          {mobileSortIcon}
+        </span>
+      </div>
     </th>
   );
 };

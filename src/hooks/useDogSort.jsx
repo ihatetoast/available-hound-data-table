@@ -18,12 +18,9 @@ export function useDogSort( dogData){
       setSortConfig({column, direction: newDir})
     }
 
-
-
   return {
     sortedData,
     sortConfig,
     handleHeaderClick
-
   }
 }
