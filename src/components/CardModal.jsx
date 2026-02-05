@@ -9,6 +9,12 @@ const CardModal = ({ selectedDogData, dotsOnHorizontal, handleCloseModal }) => {
   useEffect(() => {
     dialog.current.showModal();
   }, []);
+
+function handleCloseOnOffClick(e) {
+  if(e.target === dialog.current) {
+    handleCloseModal()
+  }
+}
   
 // TERNARY TEXT 
   const catText = selectedDogData.cats === "no" 
@@ -19,7 +25,7 @@ const CardModal = ({ selectedDogData, dotsOnHorizontal, handleCloseModal }) => {
   const statusClass = getStatusClass(selectedDogData.status);
 
   return createPortal(
-    <dialog className='modal' ref={dialog} onClose={handleCloseModal}>
+    <dialog className='modal' ref={dialog} onClose={handleCloseModal} onClick={handleCloseOnOffClick}>
       <div className='modal-content'>
         <div className='selected-dog-info'>
           <h2 className='selected-dog-name'>{selectedDogData.name} <span className={`status ${statusClass}`}>{selectedDogData.status}</span></h2>

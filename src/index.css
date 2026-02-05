@@ -339,7 +339,6 @@ td {
   aspect-ratio: 1 / 1;
 }
 
-
 .detail-row-video-link {
   background-color: var(--pink-dark);
   color: var(--white);
@@ -431,6 +430,8 @@ td {
   width: 90%;
   max-width: 64rem;
   position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .modal[open] {
@@ -539,7 +540,7 @@ td {
 }
 
 .pedigree:first-child {
-  margin-right: 0.1rem;
+  margin-right: 0.5rem;
 }
 
 .selected-dog-video-link {
@@ -839,7 +840,9 @@ td {
     display: inline-block;
     opacity: 0;
     visibility: hidden; /* Hide the element from screen readers so no unnec chatter */
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transition:
+      opacity 0.5s ease-in-out,
+      visibility 0.5s ease-in-out;
   }
 
   .table-head-unsorted-icon.mobile {
@@ -861,7 +864,12 @@ td {
   }
 
   .modal {
-    margin: 8rem auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 90vh;
+    overflow-y: auto;
   }
 
   .modal-content {
@@ -954,11 +962,11 @@ td {
 /* MODAL  */
 @keyframes slide-in-from-top {
   0% {
-    transform: translateY(-15%);
+    transform: translate(-50%, -60%);
     opacity: 0;
   }
   100% {
-    transform: translateY(0);
+    transform: translate(-50%, -50%);
     opacity: 1;
   }
 }

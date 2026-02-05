@@ -1,5 +1,4 @@
 const SelectFilter = ({labelText, topic, options, onFilterChange}) => {
-console.log(options);
   return (
     <div className={`select-filter ${topic}`}>
           <label htmlFor={`${topic}-select`}>{labelText}</label>
